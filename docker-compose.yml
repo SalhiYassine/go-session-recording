@@ -1,17 +1,21 @@
 version: "3"
 
+volumes:
+  mongo_data: {}
+
+
 services:
   app:
     build: ./recording-api
     ports:
-      - "8080:8080"
+      - "8080:6969"
   
-  db-mongo:
+  mongodb:
     container_name: mongodb
     image: mongo
-    command: "mongod --replSet rs0"
     ports:
       - "27027:27017"
     healthcheck:
-      test: mongosh --eval "rs.initiate()"
       start_period: 5s
+    volumes:
+      - mongo_data:/data/db 
